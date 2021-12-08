@@ -1,0 +1,167 @@
+definitions:
+  rest.BlockInfoResponse:
+    properties:
+      gas_used:
+        type: integer
+      hash:
+        type: string
+      number:
+        type: integer
+      timestamp:
+        type: string
+      transactions_count:
+        type: integer
+    type: object
+  rest.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  rest.GroupInfoResponse:
+    properties:
+      indexes:
+        items:
+          type: integer
+        type: array
+      name:
+        type: string
+    type: object
+  rest.IndexInfoResponse:
+    properties:
+      eth_price_in_wei:
+        type: integer
+      name:
+        type: string
+      percentage_change:
+        type: integer
+      usd_capitalization:
+        type: integer
+      usd_price_in_cents:
+        type: integer
+    type: object
+  rest.ListGroupsResponse:
+    properties:
+      groups:
+        items:
+          type: integer
+        type: array
+    type: object
+info:
+  contact: {}
+  title: Tech assignment API
+  version: v1.0.0
+paths:
+  /blocks/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Finds a block by given hash or number and returns it
+      parameters:
+      - description: Block Hash or Number
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.BlockInfoResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Get block info by hash or by number
+  /blocks/latest:
+    get:
+      consumes:
+      - application/json
+      description: Finds the latest block and returns it
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.BlockInfoResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Get the latest block
+  /groups:
+    get:
+      consumes:
+      - application/json
+      description: Returns list of groups
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.ListGroupsResponse'
+        "404":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Get groups
+  /groups/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Finds a group by ID and returns it
+      parameters:
+      - description: Group ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.GroupInfoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Get group info
+  /indexes/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Finds an index by ID and returns it
+      parameters:
+      - description: Index ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.IndexInfoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.ErrorResponse'
+      summary: Get index info
+swagger: "2.0"
